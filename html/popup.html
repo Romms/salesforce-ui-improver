@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salesforce UI Improver</title>
+    <style>
+        body {
+            width: 250px;
+            background: url('../images/logo.png') calc(100% + 47vh) 0 no-repeat;
+            background-size: contain;
+            margin: 0;
+            padding: 8px 20px 8px 8px;
+            color: #333;
+        }
+
+        .header {
+            margin: 0 0 5px 0;
+        }
+
+        .footer {
+            margin: 5px 0 0 0;
+        }
+
+        label {
+            vertical-align: top;
+        }
+        label:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #status {
+            color: green;
+        }
+
+        a {
+            color:#015ba7;
+        }
+    </style>
+    <script src="../js/jquery-2.2.4.min.js"></script>
+    <script src="../js/popup.js"></script>
+</head>
+<body>
+    <h3 class="header">Salesforce UI Improver</h3>
+    <div>
+        <label><input type="checkbox" name="show1000PerPage"> Show 1000 records per page</label>
+    </div>
+    <div>
+        <label><input type="checkbox" name="showLineNumbersInTables"> Show line numbers in tables</label>
+    </div>
+    <div id="status"></div>
+    <div class="footer">
+        <a href="http://salesforceuiimprover.com" target="_blank">salesforceuiimprover.com</a>
+    </div>
+</body>
+</html>
