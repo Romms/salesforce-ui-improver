@@ -141,16 +141,17 @@ var salesforceuiimprover_scripts = {
 
     showLineNumbersInTables: function () {
         var $bodyCell = $('#bodyCell');
-        $bodyCell.find('table.list > thead, table.list > tbody').children('tr.headerRow').children('th:first-child').each(function () {
-            $(this).attr('line-number', '#');
-        });
 
         $bodyCell.find('table.list > tbody').each(function () {
             var index = 1;
-            $(this).children('tr:not(.headerRow)').children('td:first-child').each(function () {
+            $(this).children('tr:not(.headerRow)').children('*:first-child').each(function () {
                 $(this).attr('line-number', index);
                 index++;
             });
+        });
+
+        $bodyCell.find('table.list > thead, table.list > tbody').children('tr.headerRow').children('th:first-child').each(function () {
+            $(this).attr('line-number', '#');
         });
     }
 };
