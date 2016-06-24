@@ -2,8 +2,14 @@ html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child::before {
     content: attr(line-number);
     display: inline-block;
-    width: 2em;
     color: #aaa;
     text-align: right;
-    padding-right: 10px;
+    position: absolute;
+    width: 2em;
+    margin-left: -2.6em;
+}
+
+html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > th:first-child,
+html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child {
+    padding-left: 2.8em;
 }
