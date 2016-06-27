@@ -1,3 +1,6 @@
+/*
+ * showLineNumbersInTables
+ */
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > th:first-child::before,
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child::before {
     content: attr(line-number);
@@ -12,4 +15,48 @@ html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > th:first-child,
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child {
     padding-left: 2.8em;
+}
+
+
+/*
+ * checkAllCheckboxes
+ */
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container {
+    padding: 0 3px 0 0;
+    position: relative;
+    margin-left: -1px;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container input {
+    vertical-align: top;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container:hover .addcheckboxes-reset {
+    display: block;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container.addcheckboxes-container-disabled .addcheckboxes-reset {
+    display: none;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container .addcheckboxes-reset {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    border-radius: 3px;
+    margin-left: -1px;
+    margin-top: -3px;
+    opacity: 0.2;
+    background-color: #222;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container .addcheckboxes-reset:hover {
+    opacity: 1;
+}
+
+html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckboxes-container .addcheckboxes-reset a {
+    color: #fff;
+    display: inline-block;
+    padding: 3px 6px;
 }

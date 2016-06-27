@@ -11,12 +11,14 @@ $(function() {
 
 // Saves options to chrome.storage
 function save_options() {
-    var show1000PerPage = ($('input[name="show1000PerPage"]:checked').length > 0) ? true : false;
-    var showLineNumbersInTables = ($('input[name="showLineNumbersInTables"]:checked').length > 0) ? true : false;
+    var show1000PerPage = ($('input[name="show1000PerPage"]:checked').length > 0);
+    var showLineNumbersInTables = ($('input[name="showLineNumbersInTables"]:checked').length > 0);
+    var checkAllCheckboxes = ($('input[name="checkAllCheckboxes"]:checked').length > 0);
 
     chrome.storage.sync.set({
         show1000PerPage: show1000PerPage,
-        showLineNumbersInTables: showLineNumbersInTables
+        showLineNumbersInTables: showLineNumbersInTables,
+        checkAllCheckboxes: checkAllCheckboxes
     }, function() {
         optionsSaved();
     });
@@ -26,10 +28,12 @@ function save_options() {
 function restore_options() {
     chrome.storage.sync.get({
         show1000PerPage: true,
-        showLineNumbersInTables: true
+        showLineNumbersInTables: true,
+        checkAllCheckboxes: true
     }, function(items) {
         $('input[name="show1000PerPage"]').attr('checked', items.show1000PerPage);
         $('input[name="showLineNumbersInTables"]').attr('checked', items.showLineNumbersInTables);
+        $('input[name="checkAllCheckboxes"]').attr('checked', items.checkAllCheckboxes);
     });
 }
 

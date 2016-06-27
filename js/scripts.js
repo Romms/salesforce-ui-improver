@@ -153,5 +153,191 @@ var salesforceuiimprover_scripts = {
         $bodyCell.find('table.list > thead, table.list > tbody').children('tr.headerRow').children('th:first-child').each(function () {
             $(this).attr('line-number', '#');
         });
+    },
+
+    checkAllCheckboxes : function () {
+        function recheckHeaderCheckbox(index) {
+            index = +index;
+            var $checkboxes = $('.addcheckboxes-container input[type=checkbox][addcheckboxes-colindex=' + index + ']');
+            $checkboxes.each(function(){
+                var $this = $(this);
+                var checkedCount = 0;
+                var uncheckedCount = 0;
+
+                $this
+                    .closest('table')
+                    .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
+                    .not('[disabled]')
+                    .not('[disabled="*"]')
+                    .each(function(){
+                        var $this = $(this);
+                        var isChecked = $this.is(':checked');
+
+                        if (true === isChecked) {
+                            checkedCount++;
+                        } else {
+                            uncheckedCount++;
+                        }
+
+                    });
+
+                if (1 <= checkedCount && 0 === uncheckedCount) {
+                    $this.prop('checked', true);
+                } else {
+                    $this.prop('checked', false);
+                }
+
+            });
+
+        }
+
+        function generateHeaderCheckbox(index, disabled) {
+            var $container = $('<span/>').addClass('addcheckboxes-container');
+            if (true === disabled) {
+                $container.addClass('addcheckboxes-container-disabled', true);
+            }
+
+            var $checkbox = $('<input/>');
+            $checkbox.attr('type', 'checkbox');
+            $checkbox.attr('addcheckboxes-colindex', index);
+            $checkbox.attr('title', 'Check/Uncheck All Checkboxes');
+            if (true === disabled) {
+                $checkbox.prop('disabled', true);
+            }
+            $checkbox.change(function(){
+                var $this = $(this);
+                var index = +$this.attr('addcheckboxes-colindex');
+                var needChecked = $this.is(':checked');
+                $this
+                    .closest('table')
+                    .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
+                    .not('[disabled]')
+                    .not('[disabled="*"]')
+                    .each(function(){
+                        var $this = $(this);
+                        var isChecked = $this.is(':checked');
+                        if ((needChecked && !isChecked) || (!needChecked && isChecked)) {
+                            $this.click();
+                        }
+                    });
+            });
+
+            var $tip = $('<span/>').addClass('addcheckboxes-reset');
+            var $tip_link = $('<a/>');
+            $tip_link.text('Reset');
+            $tip_link.attr('href', 'javascript:void(0)');
+            $tip_link.attr('title', 'Restore the initial values');
+            $tip_link.click(function(){
+                var $this = $(this);
+                var $container = $this.closest('.addcheckboxes-container');
+                var $checkbox = $container.find('input[type=checkbox]');
+                var index = +$checkbox.attr('addcheckboxes-colindex');
+
+                $this
+                    .closest('table')
+                    .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
+                    .not('[disabled]')
+                    .not('[disabled="*"]')
+                    .each(function(){
+                        $this = $(this);
+                        var needChecked = true;
+
+                        var resetvalue = $this.attr('addcheckboxes-resetvalue');
+                        if (!resetvalue || resetvalue == 'false') {
+                            needChecked = false;
+                        }
+
+                        var isChecked = $this.is(':checked');
+                        if ((needChecked && !isChecked) || (!needChecked && isChecked)) {
+                            $this.click();
+                        }
+                    });
+            });
+
+
+
+            $tip.append($tip_link);
+
+            $container.append($checkbox);
+            $container.append($tip);
+
+            return $container;
+        }
+
+        $('#bodyCell').find('table').has('td > input[type=checkbox]').each(function(){
+            var $table = $(this);
+            var $trHeader;
+            var cols = {};
+            var disabledCount = {};
+
+            var $tds;
+            if (0 !== $table.children('tbody').length) {
+                $tds = $table.children('tbody').children('tr').children('td');
+            } else {
+                $tds = $table.children('tr').children('td');
+            }
+
+            $tds.children('input[type=checkbox]').each(function(){
+                var $this = $(this);
+                var $td = $this.parent();
+                var index = $td.index();
+                var checked = $this.is(':checked');
+
+                $this.addClass('addcheckboxes-target');
+                $this.attr('addcheckboxes-resetvalue', checked);
+                $this.attr('addcheckboxes-colindex', index);
+                $this.on('change', function (){
+                    recheckHeaderCheckbox(index);
+                });
+
+                if (undefined === cols[index]) {
+                    cols[index] = 0;
+                }
+
+                if (undefined === disabledCount[index]) {
+                    disabledCount[index] = 0;
+                }
+
+                if ($this.is(':disabled')) {
+                    disabledCount[index]++;
+                }
+                cols[index]++;
+            });
+
+            if ($table.children('thead')) {
+                $trHeader = $table.children('thead').children('tr:first');
+            } else {
+                var $firtTrInTbody;
+
+                if ($table.children('tbody')) {
+                    $firtTrInTbody = $table.children('tbody').children('tr:first');
+                } else {
+                    $firtTrInTbody = $table.children('tr:first');
+                }
+
+                if (0 === $firtTrInTbody.children('td').length) {
+                    $trHeader = $firtTrInTbody;
+                }
+            }
+
+            if (undefined !== $trHeader && 0 !== $trHeader.length) {
+                $.each(cols, function( key, value ) {
+                    var index = key;
+                    var $th = $($trHeader.children().get(index));
+                    var disabled = false;
+                    if (value == disabledCount[index])  {
+                        disabled = true;
+                    }
+
+                    var $deepestElem = $th;
+                    while ($deepestElem.children(':first').length > 0) {
+                        $deepestElem = $deepestElem.children(':first');
+                    }
+
+                    $deepestElem.prepend(generateHeaderCheckbox(index, disabled));
+                    recheckHeaderCheckbox(index);
+                });
+            }
+        });        
     }
 };

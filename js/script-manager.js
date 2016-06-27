@@ -14,6 +14,10 @@
                 document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'showLineNumbersInTables');
                 salesforceuiimprover_scripts.showLineNumbersInTables();
             }
+            if (true === options.checkAllCheckboxes) {
+                document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'checkAllCheckboxes');
+                salesforceuiimprover_scripts.checkAllCheckboxes();
+            }
         }
     }
 
@@ -21,7 +25,8 @@
 
         chrome.storage.sync.get({
             show1000PerPage: true,
-            showLineNumbersInTables: true
+            showLineNumbersInTables: true,
+            checkAllCheckboxes: true
         }, function(items) {
             var options = $.extend(options, items);
             exec_scripts(options);
