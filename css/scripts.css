@@ -3,7 +3,7 @@
  */
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > th:first-child::before,
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child::before {
-    content: attr(line-number);
+    content: '#';
     display: inline-block;
     color: #aaa;
     text-align: right;
@@ -15,6 +15,15 @@ html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > th:first-child,
 html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr > td:first-child {
     padding-left: 2.8em;
+}
+
+html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list {
+    counter-reset: showLineNumbersInTables-counter;
+}
+html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr:not(.headerRow) > th:first-child::before,
+html.salesforceuiimprover-enabledScript-showLineNumbersInTables #bodyCell table.list > * > tr:not(.headerRow) > td:first-child::before {
+    content: counter(showLineNumbersInTables-counter);
+    counter-increment: showLineNumbersInTables-counter;
 }
 
 
