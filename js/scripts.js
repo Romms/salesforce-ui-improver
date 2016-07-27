@@ -117,26 +117,49 @@ var salesforceuiimprover_scripts = {
             }
         });
 
-        var links = $('.bPageBlock .pbBody > .fewerMore a:first-child');
-        if (links.length) {
+        var fewerMore = $('.bPageBlock .pbBody > .fewerMore');
+        if (fewerMore.length) {
 
-            links.each(function () {
+            fewerMore.each(function () {
                 var $this = $(this);
-                var url = $this.attr('href');
-                var rowsperpage = utils.getRowsperpageFromUrl(url);
-                if (undefined !== rowsperpage) {
-                    if (
-                        (990 == rowsperpage && $this.find('.fewerArrow').length) ||
-                        (1010 == rowsperpage && $this.find('.moreArrow').length)
-                    ) {
-                        $this.parent().append('<br/><span style="color:grey;">Showing 1000 records per page</span>');
-                    } else {
+                var message;
+
+                var $fewer;
+                var $more;
+
+                var fewerRowsperpage;
+
+                if ($this.find('a img.fewerArrow').length) {
+                    $fewer = $this.find('a img.fewerArrow').parent();
+                    fewerRowsperpage = utils.getRowsperpageFromUrl($fewer.attr('href'));
+                }
+
+                if ($this.find('a img.moreArrow').length) {
+                    $more = $this.find('a img.moreArrow').parent();
+                }
+
+                if ($fewer && fewerRowsperpage == 990) {
+                    message = '<span style="color:grey;">Showing 1000 records per page</span>';
+                }
+
+                if (!message) {
+                    if ($more) {
+                        var url = $more.attr('href');
                         url = url.replace(/((%3A|[&?])rowsperpage)=[0-9]*/g, "$1=1000");
-                        $this.parent().append('<br/><a href="' + url + '">Show 1000 records per page</a>');
+                        message = '<a href="' + url + '">Show 1000 records per page</a>';
                     }
+                }
+
+                if (!message) {
+                    message = '<span style="color:grey;">No possibility show more records</span>';
+                }
+
+                if (message) {
+                    $this.append('<br/>'+message);
                 }
             });
         }
+
     },
 
     showLineNumbersInTables: function () {
