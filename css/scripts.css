@@ -69,3 +69,72 @@ html.salesforceuiimprover-enabledScript-checkAllCheckboxes #bodyCell .addcheckbo
     display: inline-block;
     padding: 3px 6px;
 }
+
+
+/*
+ * showFieldApiNames
+ */
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol {
+    position: relative;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tipLabel {
+    position: relative;
+    display: inline;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip {
+    display: none;
+    position: absolute;
+    background: rgb(0,0,0);
+    padding: 4px 10px 4px 7px;
+    color: #fff;
+    font-weight: 100;
+    border-radius: 4px;
+    left: 100%;
+    right: inherit;
+    top: 0;
+    z-index: 100;
+    white-space: nowrap;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol:hover .fieldApiName-tip {
+    display: block;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tipLabel > .fieldApiName-tip {
+    left: initial;
+    right: 100%;
+    margin-right: 18px;
+    margin-top: -4px;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-swapLabels {
+    display: block;
+    float: right;
+    margin: -4px -24px -4px -7px;
+    padding: 4px;
+    background: #a33;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-swapLabels:hover {
+    background: #800;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip      > .fieldApiName-fieldApiName,
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tipLabel > .fieldApiName-fieldLabel {
+    display: inline;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tipLabel > .fieldApiName-fieldApiName,
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip      > .fieldApiName-fieldLabel {
+    display: none;
+}
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames body.showFieldApiNames-showApiNamesInLabels #bodyCell td.labelCol .fieldApiName-tipLabel  > .fieldApiName-fieldLabel,
+html.salesforceuiimprover-enabledScript-showFieldApiNames body.showFieldApiNames-showApiNamesInLabels #bodyCell td.labelCol .fieldApiName-tip       > .fieldApiName-fieldApiName{
+    display: none;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames body.showFieldApiNames-showApiNamesInLabels #bodyCell td.labelCol .fieldApiName-tipLabel  > .fieldApiName-fieldApiName,
+html.salesforceuiimprover-enabledScript-showFieldApiNames body.showFieldApiNames-showApiNamesInLabels #bodyCell td.labelCol .fieldApiName-tip       > .fieldApiName-fieldLabel{
+    display: inline;
+}

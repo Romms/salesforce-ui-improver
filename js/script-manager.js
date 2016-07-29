@@ -18,6 +18,11 @@
                 document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'checkAllCheckboxes');
                 salesforceuiimprover_scripts.checkAllCheckboxes();
             }
+
+            if (true === options.showFieldApiNames) {
+                document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'showFieldApiNames');
+                salesforceuiimprover_scripts.showFieldApiNames();
+            }
         }
     }
 
@@ -26,7 +31,8 @@
         chrome.storage.sync.get({
             show1000PerPage: true,
             showLineNumbersInTables: true,
-            checkAllCheckboxes: true
+            checkAllCheckboxes: true,
+            showFieldApiNames: true
         }, function(items) {
             var options = $.extend(options, items);
             exec_scripts(options);

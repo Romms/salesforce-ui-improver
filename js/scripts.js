@@ -155,7 +155,7 @@ var salesforceuiimprover_scripts = {
                 }
 
                 if (message) {
-                    $this.append('<br/>'+message);
+                    $this.append('<br/>' + message);
                 }
             });
         }
@@ -165,11 +165,11 @@ var salesforceuiimprover_scripts = {
     showLineNumbersInTables: function () {
     },
 
-    checkAllCheckboxes : function () {
+    checkAllCheckboxes: function () {
         function recheckHeaderCheckbox(index) {
             index = +index;
             var $checkboxes = $('.addcheckboxes-container input[type=checkbox][addcheckboxes-colindex=' + index + ']');
-            $checkboxes.each(function(){
+            $checkboxes.each(function () {
                 var $this = $(this);
                 var checkedCount = 0;
                 var uncheckedCount = 0;
@@ -179,7 +179,7 @@ var salesforceuiimprover_scripts = {
                     .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
                     .not('[disabled]')
                     .not('[disabled="*"]')
-                    .each(function(){
+                    .each(function () {
                         var $this = $(this);
                         var isChecked = $this.is(':checked');
 
@@ -214,7 +214,7 @@ var salesforceuiimprover_scripts = {
             if (true === disabled) {
                 $checkbox.prop('disabled', true);
             }
-            $checkbox.change(function(){
+            $checkbox.change(function () {
                 var $this = $(this);
                 var index = +$this.attr('addcheckboxes-colindex');
                 var needChecked = $this.is(':checked');
@@ -223,7 +223,7 @@ var salesforceuiimprover_scripts = {
                     .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
                     .not('[disabled]')
                     .not('[disabled="*"]')
-                    .each(function(){
+                    .each(function () {
                         var $this = $(this);
                         var isChecked = $this.is(':checked');
                         if ((needChecked && !isChecked) || (!needChecked && isChecked)) {
@@ -237,7 +237,7 @@ var salesforceuiimprover_scripts = {
             $tip_link.text('Reset');
             $tip_link.attr('href', 'javascript:void(0)');
             $tip_link.attr('title', 'Restore the initial values');
-            $tip_link.click(function(){
+            $tip_link.click(function () {
                 var $this = $(this);
                 var $container = $this.closest('.addcheckboxes-container');
                 var $checkbox = $container.find('input[type=checkbox]');
@@ -248,7 +248,7 @@ var salesforceuiimprover_scripts = {
                     .find('input.addcheckboxes-target[type=checkbox][addcheckboxes-colindex=' + index + ']')
                     .not('[disabled]')
                     .not('[disabled="*"]')
-                    .each(function(){
+                    .each(function () {
                         $this = $(this);
                         var needChecked = true;
 
@@ -265,7 +265,6 @@ var salesforceuiimprover_scripts = {
             });
 
 
-
             $tip.append($tip_link);
 
             $container.append($checkbox);
@@ -274,7 +273,7 @@ var salesforceuiimprover_scripts = {
             return $container;
         }
 
-        $('#bodyCell').find('table').has('td > input[type=checkbox]').each(function(){
+        $('#bodyCell').find('table').has('td > input[type=checkbox]').each(function () {
             var $table = $(this);
             var $trHeader;
             var cols = {};
@@ -287,7 +286,7 @@ var salesforceuiimprover_scripts = {
                 $tds = $table.children('tr').children('td');
             }
 
-            $tds.children('input[type=checkbox]').each(function(){
+            $tds.children('input[type=checkbox]').each(function () {
                 var $this = $(this);
                 var $td = $this.parent();
                 var index = $td.index();
@@ -296,7 +295,7 @@ var salesforceuiimprover_scripts = {
                 $this.addClass('addcheckboxes-target');
                 $this.attr('addcheckboxes-resetvalue', checked);
                 $this.attr('addcheckboxes-colindex', index);
-                $this.on('change', function (){
+                $this.on('change', function () {
                     recheckHeaderCheckbox(index);
                 });
 
@@ -331,11 +330,11 @@ var salesforceuiimprover_scripts = {
             }
 
             if (undefined !== $trHeader && 0 !== $trHeader.length) {
-                $.each(cols, function( key, value ) {
+                $.each(cols, function (key, value) {
                     var index = key;
                     var $th = $($trHeader.children().get(index));
                     var disabled = false;
-                    if (value == disabledCount[index])  {
+                    if (value == disabledCount[index]) {
                         disabled = true;
                     }
 
@@ -348,6 +347,164 @@ var salesforceuiimprover_scripts = {
                     recheckHeaderCheckbox(index);
                 });
             }
-        });        
+        });
+    },
+
+    showFieldApiNames : function () {
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        var loadRecordType = function (headers, sObjectName, sObjectId) {
+            var recordTypeId;
+
+            $.ajax({
+                url: '/services/data/v31.0/sobjects/' + sObjectName + '/' + sObjectId,
+                headers: headers,
+                success: function (data) {
+                    recordTypeId = data.RecordTypeId || '012000000000000AAA';
+                    loadLayout(headers, sObjectName, recordTypeId);
+                }
+            });
+        };
+
+        var loadLayout = function (headers, sObjectName, recordTypeId) {
+            $.ajax({
+                url: '/services/data/v31.0/sobjects/' + sObjectName + '/describe/layouts/' + recordTypeId,
+                headers: headers,
+                success: function (data) {
+                    var layout;
+                    if (data.layouts && data.layouts.length) {
+                        layout = data.layouts[0];
+                    } else {
+                        layout = data;
+                    }
+                    addTipsToLayout(layout.detailLayoutSections);
+                }
+            });
+        };
+
+        var addTipsToLayout = function (detailLayoutSections) {
+            var elNum = 0;
+            var elements = $('#bodyCell').find('.labelCol');
+
+            detailLayoutSections.forEach(function (section) {
+                section.layoutRows.forEach(function (row) {
+                    row.layoutItems.forEach(function (item) {
+                        if (!item.placeholder && elements[elNum]) {
+                            var $td = $(elements[elNum]);
+                            var $labelElement = getLabelElement($td);
+
+                            var fieldApiName = item.layoutComponents[0].value;
+                            var label = getElementText($labelElement);
+
+                            addTipLabel($td, fieldApiName, label);
+                            addTip($td, fieldApiName, label);
+                        }
+
+                        elNum++;
+                    });
+                });
+            });
+        };
+
+        var getElementText = function($elem) {
+            return $elem.clone().children().remove().end().text().trim();
+        };
+
+        var addTipLabel = function ($td, fieldApiName, fieldLabel) {
+            var $tip = generateWrapper(fieldApiName, fieldLabel);
+            $tip.addClass('fieldApiName-tipLabel');
+
+            var $labelElement = getLabelElement($td);
+            $labelElement.append($tip);
+
+            // Remove previous label (text)
+            $labelElement.contents().filter(function(){
+                return this.nodeType != 1;
+            }).remove();
+        };
+
+        var addTip = function ($td, fieldApiName, fieldLabel) {
+            var $tip = generateWrapper(fieldApiName, fieldLabel);
+            $tip.addClass('fieldApiName-tip');
+
+            var $button = $('<span class="fieldApiName-swapLabels" />');
+            $button.html('&#8646;'); // Symbol - ⇆
+            $button.click(function () {
+               $('body').toggleClass('showFieldApiNames-showApiNamesInLabels');
+            });
+
+            $tip.append($button);
+
+            var $labelElement = getLabelElement($td);
+            var $place = $labelElement.find('.fieldApiName-tipLabel');
+            if (0 == $place.length) {
+                $place = $td;
+            }
+
+            $place.prepend($tip);
+        };
+
+        var generateWrapper = function (fieldApiName, fieldLabel) {
+            var $fieldApiName = $('<span class="fieldApiName-fieldApiName"/>').html(fieldApiName);
+            var $fieldLabel = $('<span class="fieldApiName-fieldLabel"/>').html(fieldLabel);
+
+            var $tip = $('<div/>');
+            $tip.append($fieldApiName);
+            $tip.append($fieldLabel);
+
+            return $tip;
+        };
+
+        var getLabelElement = function ($parent) {
+            var $lebelElement;
+            var $label = $parent.find('label');
+
+            if ($label.length) {
+                $lebelElement = $($label[0]);
+            } else {
+                var $helpButton = $parent.find('.helpButton');
+
+                if ($helpButton.length) {
+                    $lebelElement = $($helpButton[0]);
+                } else {
+                    $lebelElement = $parent;
+                }
+        }
+
+            return $lebelElement;
+        };
+
+        if (window.location.pathname.length < 16) {
+            return;
+        }
+
+        var keyPrefix = window.location.pathname.substring(1, 4);
+        var sObjectId = window.location.pathname.substring(1, 16);
+        var headers = {'Authorization': 'Bearer ' + getCookie('sid')};
+
+        // debugger;
+
+        $.ajax({
+            url: '/services/data/v31.0/sobjects',
+            headers: headers,
+            success: function (data) {
+                var sObjectName;
+
+                data.sobjects.forEach(function (sobject) {
+                    if (keyPrefix == sobject.keyPrefix) {
+                        sObjectName = sobject.name;
+                    }
+                });
+
+                if (undefined !== sObjectName) {
+                    loadRecordType(headers, sObjectName, sObjectId);
+                }
+            }
+        });
     }
+
 };

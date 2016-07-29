@@ -14,7 +14,15 @@
         }
 
         .header {
-            margin: 0 0 5px 0;
+            margin: 0;
+        }
+
+        .settings {
+            margin: 12px 0 8px 0;
+        }
+
+        .setting-item {
+            padding: 2px 0;
         }
 
         .footer {
@@ -41,15 +49,20 @@
     <script src="../js/popup.js"></script>
 </head>
 <body>
-    <h3 class="header">Salesforce UI Improver</h3>
-    <div>
-        <label><input type="checkbox" name="show1000PerPage"> Show 1000 records per page</label>
-    </div>
-    <div>
-        <label><input type="checkbox" name="showLineNumbersInTables"> Show line numbers in tables</label>
-    </div>
-    <div>
-        <label><input type="checkbox" name="checkAllCheckboxes"> Show checkbox in header to check all</label>
+    <h1 class="header">Salesforce UI Improver</h1>
+    <div class="settings">
+        <div class="setting-item">
+            <label><input type="checkbox" name="show1000PerPage"> Show 1000 records per page</label>
+        </div>
+        <div class="setting-item">
+            <label><input type="checkbox" name="showLineNumbersInTables"> Show line numbers in tables</label>
+        </div>
+        <div class="setting-item">
+            <label><input type="checkbox" name="checkAllCheckboxes"> Show checkbox in header to check all</label>
+        </div>
+        <div class="setting-item">
+            <label><input type="checkbox" name="showFieldApiNames"> Show Field API Names on page layouts</label>
+        </div>
     </div>
     <div id="status"></div>
     <div class="footer">
