@@ -361,7 +361,7 @@ var salesforceuiimprover_scripts = {
             var recordTypeId;
 
             $.ajax({
-                url: '/services/data/v31.0/sobjects/' + sObjectName + '/' + sObjectId,
+                url: '/services/data/v31.0/sobjects/' + sObjectName + '/' + sObjectId + '?t=' + Math.random(),
                 headers: headers,
                 success: function (data) {
                     recordTypeId = data.RecordTypeId || '012000000000000AAA';
@@ -372,7 +372,7 @@ var salesforceuiimprover_scripts = {
 
         var loadLayout = function (headers, sObjectName, recordTypeId) {
             $.ajax({
-                url: '/services/data/v31.0/sobjects/' + sObjectName + '/describe/layouts/' + recordTypeId,
+                url: '/services/data/v31.0/sobjects/' + sObjectName + '/describe/layouts/' + recordTypeId + '?t=' + Math.random(),
                 headers: headers,
                 success: function (data) {
                     var layout;
@@ -489,7 +489,7 @@ var salesforceuiimprover_scripts = {
         // debugger;
 
         $.ajax({
-            url: '/services/data/v31.0/sobjects',
+            url: '/services/data/v31.0/sobjects' + '?t=' + Math.random(),
             headers: headers,
             success: function (data) {
                 var sObjectName;
