@@ -15,12 +15,14 @@ function save_options() {
     var showLineNumbersInTables = ($('input[name="showLineNumbersInTables"]:checked').length > 0);
     var checkAllCheckboxes = ($('input[name="checkAllCheckboxes"]:checked').length > 0);
     var showFieldApiNames = ($('input[name="showFieldApiNames"]:checked').length > 0);
+    var moveUpUnderscore = ($('input[name="moveUpUnderscore"]:checked').length > 0);
 
     chrome.storage.sync.set({
         show1000PerPage: show1000PerPage,
         showLineNumbersInTables: showLineNumbersInTables,
         checkAllCheckboxes: checkAllCheckboxes,
-        showFieldApiNames: showFieldApiNames
+        showFieldApiNames: showFieldApiNames,
+        moveUpUnderscore: moveUpUnderscore
     }, function() {
         optionsSaved();
     });
@@ -32,12 +34,14 @@ function restore_options() {
         show1000PerPage: true,
         showLineNumbersInTables: true,
         checkAllCheckboxes: true,
-        showFieldApiNames: true
+        showFieldApiNames: true,
+        moveUpUnderscore: true
     }, function(items) {
         $('input[name="show1000PerPage"]').attr('checked', items.show1000PerPage);
         $('input[name="showLineNumbersInTables"]').attr('checked', items.showLineNumbersInTables);
         $('input[name="checkAllCheckboxes"]').attr('checked', items.checkAllCheckboxes);
         $('input[name="showFieldApiNames"]').attr('checked', items.showFieldApiNames);
+        $('input[name="moveUpUnderscore"]').attr('checked', items.moveUpUnderscore);
     });
 }
 

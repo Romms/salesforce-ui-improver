@@ -505,6 +505,24 @@ var salesforceuiimprover_scripts = {
                 }
             }
         });
+    },
+
+    moveUpUnderscore : function () {
+        var styleTag = document.createElement('style');
+
+        styleTag.appendChild(document.createTextNode("\
+            @font-face {\
+                font-family: 'UnderscoreSymbol';\
+                src: url('chrome-extension://" + chrome.i18n.getMessage('@@extension_id') + "/fonts/UnderscoreSymbol.ttf');\
+            }\
+            \
+            a { \
+                /* \"UnderscoreSymbol\" is using only for \"_\" symbol */ \
+                font-family: \"UnderscoreSymbol\", Arial, Helvetica, sans-serif; \
+            }\
+        "));
+
+        document.head.appendChild(styleTag);
     }
 
 };

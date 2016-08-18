@@ -23,6 +23,11 @@
                 document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'showFieldApiNames');
                 salesforceuiimprover_scripts.showFieldApiNames();
             }
+
+            if (true === options.moveUpUnderscore) {
+                document.documentElement.classList.add('salesforceuiimprover-enabledScript-' + 'moveUpUnderscore');
+                salesforceuiimprover_scripts.moveUpUnderscore();
+            }
         }
     }
 
@@ -32,7 +37,8 @@
             show1000PerPage: true,
             showLineNumbersInTables: true,
             checkAllCheckboxes: true,
-            showFieldApiNames: true
+            showFieldApiNames: true,
+            moveUpUnderscore: true
         }, function(items) {
             var options = $.extend(options, items);
             exec_scripts(options);

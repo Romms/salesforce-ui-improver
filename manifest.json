@@ -37,5 +37,9 @@
   "permissions": [
     "https://*.salesforce.com/*",
     "storage"
+  ],
+
+  "web_accessible_resources": [
+    "fonts/*"
   ]
 }

@@ -25,20 +25,26 @@
             padding: 2px 0;
         }
 
-        .footer {
-            margin: 5px 0 0 0;
+        .setting-item input{
+            margin-right: 0.5em;
         }
 
-        label {
-            vertical-align: top;
+        .setting-item label {
+            vertical-align: bottom;
         }
-        label:hover {
+
+        .setting-item label:hover {
             text-decoration: underline;
             cursor: pointer;
         }
 
+        .footer {
+            margin: 5px 0 0 0;
+        }
+
         #status {
             color: green;
+            font-weight: bold;
         }
 
         a {
@@ -52,16 +58,19 @@
     <h1 class="header">Salesforce UI Improver</h1>
     <div class="settings">
         <div class="setting-item">
-            <label><input type="checkbox" name="show1000PerPage"> Show 1000 records per page</label>
+            <label><input type="checkbox" name="show1000PerPage">Show 1000 records per page</label>
         </div>
         <div class="setting-item">
-            <label><input type="checkbox" name="showLineNumbersInTables"> Show line numbers in tables</label>
+            <label><input type="checkbox" name="showLineNumbersInTables">Show line numbers in tables</label>
         </div>
         <div class="setting-item">
-            <label><input type="checkbox" name="checkAllCheckboxes"> Show checkbox in header to check all</label>
+            <label><input type="checkbox" name="checkAllCheckboxes">Show checkbox in header to check all</label>
         </div>
         <div class="setting-item">
-            <label><input type="checkbox" name="showFieldApiNames"> Show Field API Names on page layouts</label>
+            <label><input type="checkbox" name="showFieldApiNames">Show Field API Names on page layouts</label>
+        </div>
+        <div class="setting-item">
+            <label><input type="checkbox" name="moveUpUnderscore">Move up underscore symbol in links</label>
         </div>
     </div>
     <div id="status"></div>
