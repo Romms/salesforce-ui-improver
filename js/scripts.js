@@ -17,78 +17,39 @@ var salesforceuiimprover_scripts = {
             }
         };
 
+        jQuery('#bodyCell').ready(function () {
+            var nextOrPrevPage = $('.bNext > .withFilter > .next, .listElementBottomNav > .bNext > .next');
+            nextOrPrevPage.each(function () {
+                var $this = $(this);
 
-        var nextOrPrevPage = $('.bNext > .withFilter > .next, .listElementBottomNav > .bNext > .next');
-        nextOrPrevPage.each(function () {
-            var $this = $(this);
+                var $prev_link = $this.children('a:eq(0)');
+                var $next_link = $this.children('a:eq(1)');
 
-            var $prev_link = $this.children('a:eq(0)');
-            var $next_link = $this.children('a:eq(1)');
-
-            if ('Next Page>' === $prev_link.text()) {
-                $prev_link = $this.children('empty');
-                $next_link = $this.children('a:eq(0)');
-            }
-
-            console.log($prev_link.text());
-            console.log($next_link.text());
-
-            if ($prev_link.length > 0 || $next_link.length > 0) {
-
-                var prev_lsr = undefined;
-                var next_lsr = undefined;
-                var url;
-
-                if ($prev_link.length) {
-                    url = $prev_link.attr('href');
-                    prev_lsr = utils.getLsrFromUrl(url);
+                if ('Next Page>' === $prev_link.text()) {
+                    $prev_link = $this.children('empty');
+                    $next_link = $this.children('a:eq(0)');
                 }
 
-                if ($next_link.length) {
-                    url = $next_link.attr('href');
-                    next_lsr = utils.getLsrFromUrl(url);
-                }
+                console.log($prev_link.text());
+                console.log($next_link.text());
 
-                var current_rowsperpage = utils.getRowsperpageFromUrl(url);
+                if ($prev_link.length > 0 || $next_link.length > 0) {
 
-                console.log('Counters:');
+                    var prev_lsr = undefined;
+                    var next_lsr = undefined;
+                    var url;
 
-                console.log('current_rowsperpage : ' + current_rowsperpage);
-                console.log('prev_lsr : ' + prev_lsr);
-                console.log('next_lsr : ' + next_lsr);
-
-                if (undefined !== prev_lsr || undefined !== next_lsr) {
-
-                    var current_lsr = 0;
-                    if (undefined !== prev_lsr && undefined !== next_lsr) {
-                        var middle = Math.round((prev_lsr + next_lsr) / 2);
-                        current_lsr = prev_lsr + middle;
-
-                        if (undefined === current_rowsperpage) {
-                            current_rowsperpage = middle;
-                        }
-                    } else {
-                        if (undefined === prev_lsr) {
-                            current_lsr = 0;
-
-                            if (undefined === current_rowsperpage) {
-                                current_rowsperpage = next_lsr;
-                            }
-                        } else { // next_lsr === undefined
-                            if (undefined !== current_rowsperpage) {
-                                current_lsr = prev_lsr + current_rowsperpage;
-                            } else {
-                                current_lsr = prev_lsr;
-                            }
-                        }
+                    if ($prev_link.length) {
+                        url = $prev_link.attr('href');
+                        prev_lsr = utils.getLsrFromUrl(url);
                     }
 
-                    if (0 > current_lsr) {
-                        current_lsr = 0;
+                    if ($next_link.length) {
+                        url = $next_link.attr('href');
+                        next_lsr = utils.getLsrFromUrl(url);
                     }
-                    if (undefined === current_rowsperpage) {
-                        current_rowsperpage = 250;
-                    }
+
+                    var current_rowsperpage = utils.getRowsperpageFromUrl(url);
 
                     console.log('Counters:');
 
@@ -96,70 +57,109 @@ var salesforceuiimprover_scripts = {
                     console.log('prev_lsr : ' + prev_lsr);
                     console.log('next_lsr : ' + next_lsr);
 
-                    console.log('current_lsr : ' + current_lsr);
+                    if (undefined !== prev_lsr || undefined !== next_lsr) {
+
+                        var current_lsr = 0;
+                        if (undefined !== prev_lsr && undefined !== next_lsr) {
+                            var middle = Math.round((prev_lsr + next_lsr) / 2);
+                            current_lsr = prev_lsr + middle;
+
+                            if (undefined === current_rowsperpage) {
+                                current_rowsperpage = middle;
+                            }
+                        } else {
+                            if (undefined === prev_lsr) {
+                                current_lsr = 0;
+
+                                if (undefined === current_rowsperpage) {
+                                    current_rowsperpage = next_lsr;
+                                }
+                            } else { // next_lsr === undefined
+                                if (undefined !== current_rowsperpage) {
+                                    current_lsr = prev_lsr + current_rowsperpage;
+                                } else {
+                                    current_lsr = prev_lsr;
+                                }
+                            }
+                        }
+
+                        if (0 > current_lsr) {
+                            current_lsr = 0;
+                        }
+                        if (undefined === current_rowsperpage) {
+                            current_rowsperpage = 250;
+                        }
+
+                        console.log('Counters:');
+
+                        console.log('current_rowsperpage : ' + current_rowsperpage);
+                        console.log('prev_lsr : ' + prev_lsr);
+                        console.log('next_lsr : ' + next_lsr);
+
+                        console.log('current_lsr : ' + current_lsr);
 
 
-                    if (1000 == current_rowsperpage) {
-                        $this.prepend('<span>Showing 1000 records per page</span>&nbsp;|&nbsp;');
-                    } else {
+                        if (1000 == current_rowsperpage) {
+                            $this.prepend('<span>Showing 1000 records per page</span>&nbsp;|&nbsp;');
+                        } else {
 
-                        // Add rowsperpage
-                        url = url.replace(/([&?]([^&]*)%3Alsr)=[0-9]*/g, "$1&$2%3Arowsperpage=0"); // If delimeter - %3A
-                        url = url.replace(/(&lsr=[0-9]*)/g, "$1&rowsperpage=0");                   // If delimeter - &
+                            // Add rowsperpage
+                            url = url.replace(/([&?]([^&]*)%3Alsr)=[0-9]*/g, "$1&$2%3Arowsperpage=0"); // If delimeter - %3A
+                            url = url.replace(/(&lsr=[0-9]*)/g, "$1&rowsperpage=0");                   // If delimeter - &
 
-                        // Chnage lsr & rowsperpage
-                        url = url.replace(/((%3A|[&?])rowsperpage)=[0-9]*/g, "$1=1000");
-                        url = url.replace(/((%3A|[&?])lsr)=[0-9]*/g, "$1=" + current_lsr);
+                            // Chnage lsr & rowsperpage
+                            url = url.replace(/((%3A|[&?])rowsperpage)=[0-9]*/g, "$1=1000");
+                            url = url.replace(/((%3A|[&?])lsr)=[0-9]*/g, "$1=" + current_lsr);
 
-                        $this.prepend('<a href="' + url + '">Show 1000 records per page</a>&nbsp;|&nbsp;');
+                            $this.prepend('<a href="' + url + '">Show 1000 records per page</a>&nbsp;|&nbsp;');
+                        }
                     }
-                }
-            }
-        });
-
-        var fewerMore = $('.bPageBlock .pbBody > .fewerMore');
-        if (fewerMore.length) {
-
-            fewerMore.each(function () {
-                var $this = $(this);
-                var message;
-
-                var $fewer;
-                var $more;
-
-                var fewerRowsperpage;
-
-                if ($this.find('a img.fewerArrow').length) {
-                    $fewer = $this.find('a img.fewerArrow').parent();
-                    fewerRowsperpage = utils.getRowsperpageFromUrl($fewer.attr('href'));
-                }
-
-                if ($this.find('a img.moreArrow').length) {
-                    $more = $this.find('a img.moreArrow').parent();
-                }
-
-                if ($fewer && fewerRowsperpage == 990) {
-                    message = '<span style="color:grey;">Showing 1000 records per page</span>';
-                }
-
-                if (!message) {
-                    if ($more) {
-                        var url = $more.attr('href');
-                        url = url.replace(/((%3A|[&?])rowsperpage)=[0-9]*/g, "$1=1000");
-                        message = '<a href="' + url + '">Show 1000 records per page</a>';
-                    }
-                }
-
-                if (!message) {
-                    message = '<span style="color:grey;">No possibility show more records</span>';
-                }
-
-                if (message) {
-                    $this.append('<br/>' + message);
                 }
             });
-        }
 
+            var fewerMore = $('.bPageBlock .pbBody > .fewerMore');
+            if (fewerMore.length) {
+
+                fewerMore.each(function () {
+                    var $this = $(this);
+                    var message;
+
+                    var $fewer;
+                    var $more;
+
+                    var fewerRowsperpage;
+
+                    if ($this.find('a img.fewerArrow').length) {
+                        $fewer = $this.find('a img.fewerArrow').parent();
+                        fewerRowsperpage = utils.getRowsperpageFromUrl($fewer.attr('href'));
+                    }
+
+                    if ($this.find('a img.moreArrow').length) {
+                        $more = $this.find('a img.moreArrow').parent();
+                    }
+
+                    if ($fewer && fewerRowsperpage == 990) {
+                        message = '<span style="color:grey;">Showing 1000 records per page</span>';
+                    }
+
+                    if (!message) {
+                        if ($more) {
+                            var url = $more.attr('href');
+                            url = url.replace(/((%3A|[&?])rowsperpage)=[0-9]*/g, "$1=1000");
+                            message = '<a href="' + url + '">Show 1000 records per page</a>';
+                        }
+                    }
+
+                    if (!message) {
+                        message = '<span style="color:grey;">No possibility show more records</span>';
+                    }
+
+                    if (message) {
+                        $this.append('<br/>' + message);
+                    }
+                });
+            }
+        });
     },
 
     showLineNumbersInTables: function () {
@@ -273,80 +273,82 @@ var salesforceuiimprover_scripts = {
             return $container;
         }
 
-        $('#bodyCell').find('table').has('td > input[type=checkbox]').each(function () {
-            var $table = $(this);
-            var $trHeader;
-            var cols = {};
-            var disabledCount = {};
+        jQuery('#bodyCell').ready(function () {
+            $('#bodyCell').find('table').has('td > input[type=checkbox]').each(function () {
+                var $table = $(this);
+                var $trHeader;
+                var cols = {};
+                var disabledCount = {};
 
-            var $tds;
-            if (0 !== $table.children('tbody').length) {
-                $tds = $table.children('tbody').children('tr').children('td');
-            } else {
-                $tds = $table.children('tr').children('td');
-            }
-
-            $tds.children('input[type=checkbox]').each(function () {
-                var $this = $(this);
-                var $td = $this.parent();
-                var index = $td.index();
-                var checked = $this.is(':checked');
-
-                $this.addClass('addcheckboxes-target');
-                $this.attr('addcheckboxes-resetvalue', checked);
-                $this.attr('addcheckboxes-colindex', index);
-                $this.on('change', function () {
-                    recheckHeaderCheckbox(index);
-                });
-
-                if (undefined === cols[index]) {
-                    cols[index] = 0;
-                }
-
-                if (undefined === disabledCount[index]) {
-                    disabledCount[index] = 0;
-                }
-
-                if ($this.is(':disabled')) {
-                    disabledCount[index]++;
-                }
-                cols[index]++;
-            });
-
-            if ($table.children('thead')) {
-                $trHeader = $table.children('thead').children('tr:first');
-            } else {
-                var $firtTrInTbody;
-
-                if ($table.children('tbody')) {
-                    $firtTrInTbody = $table.children('tbody').children('tr:first');
+                var $tds;
+                if (0 !== $table.children('tbody').length) {
+                    $tds = $table.children('tbody').children('tr').children('td');
                 } else {
-                    $firtTrInTbody = $table.children('tr:first');
+                    $tds = $table.children('tr').children('td');
                 }
 
-                if (0 === $firtTrInTbody.children('td').length) {
-                    $trHeader = $firtTrInTbody;
-                }
-            }
+                $tds.children('input[type=checkbox]').each(function () {
+                    var $this = $(this);
+                    var $td = $this.parent();
+                    var index = $td.index();
+                    var checked = $this.is(':checked');
 
-            if (undefined !== $trHeader && 0 !== $trHeader.length) {
-                $.each(cols, function (key, value) {
-                    var index = key;
-                    var $th = $($trHeader.children().get(index));
-                    var disabled = false;
-                    if (value == disabledCount[index]) {
-                        disabled = true;
+                    $this.addClass('addcheckboxes-target');
+                    $this.attr('addcheckboxes-resetvalue', checked);
+                    $this.attr('addcheckboxes-colindex', index);
+                    $this.on('change', function () {
+                        recheckHeaderCheckbox(index);
+                    });
+
+                    if (undefined === cols[index]) {
+                        cols[index] = 0;
                     }
 
-                    var $deepestElem = $th;
-                    while ($deepestElem.children(':first').length > 0) {
-                        $deepestElem = $deepestElem.children(':first');
+                    if (undefined === disabledCount[index]) {
+                        disabledCount[index] = 0;
                     }
 
-                    $deepestElem.prepend(generateHeaderCheckbox(index, disabled));
-                    recheckHeaderCheckbox(index);
+                    if ($this.is(':disabled')) {
+                        disabledCount[index]++;
+                    }
+                    cols[index]++;
                 });
-            }
+
+                if ($table.children('thead')) {
+                    $trHeader = $table.children('thead').children('tr:first');
+                } else {
+                    var $firtTrInTbody;
+
+                    if ($table.children('tbody')) {
+                        $firtTrInTbody = $table.children('tbody').children('tr:first');
+                    } else {
+                        $firtTrInTbody = $table.children('tr:first');
+                    }
+
+                    if (0 === $firtTrInTbody.children('td').length) {
+                        $trHeader = $firtTrInTbody;
+                    }
+                }
+
+                if (undefined !== $trHeader && 0 !== $trHeader.length) {
+                    $.each(cols, function (key, value) {
+                        var index = key;
+                        var $th = $($trHeader.children().get(index));
+                        var disabled = false;
+                        if (value == disabledCount[index]) {
+                            disabled = true;
+                        }
+
+                        var $deepestElem = $th;
+                        while ($deepestElem.children(':first').length > 0) {
+                            $deepestElem = $deepestElem.children(':first');
+                        }
+
+                        $deepestElem.prepend(generateHeaderCheckbox(index, disabled));
+                        recheckHeaderCheckbox(index);
+                    });
+                }
+            });
         });
     },
 
@@ -388,23 +390,26 @@ var salesforceuiimprover_scripts = {
 
         var addTipsToLayout = function (detailLayoutSections) {
             var elNum = 0;
-            var elements = $('#bodyCell').find('.labelCol');
 
-            detailLayoutSections.forEach(function (section) {
-                section.layoutRows.forEach(function (row) {
-                    row.layoutItems.forEach(function (item) {
-                        if (!item.placeholder && elements[elNum]) {
-                            var $td = $(elements[elNum]);
-                            var $labelElement = getLabelElement($td);
+            jQuery('#bodyCell').ready(function () {
+                var elements = $('#bodyCell').find('.labelCol');
 
-                            var fieldApiName = item.layoutComponents[0].value;
-                            var label = getElementText($labelElement);
+                detailLayoutSections.forEach(function (section) {
+                    section.layoutRows.forEach(function (row) {
+                        row.layoutItems.forEach(function (item) {
+                            if (!item.placeholder && elements[elNum]) {
+                                var $td = $(elements[elNum]);
+                                var $labelElement = getLabelElement($td);
 
-                            addTipLabel($td, fieldApiName, label);
-                            addTip($td, fieldApiName, label);
-                        }
+                                var fieldApiName = item.layoutComponents[0].value;
+                                var label = getElementText($labelElement);
 
-                        elNum++;
+                                addTipLabel($td, fieldApiName, label);
+                                addTip($td, fieldApiName, label);
+                            }
+
+                            elNum++;
+                        });
                     });
                 });
             });
@@ -473,7 +478,7 @@ var salesforceuiimprover_scripts = {
                 } else {
                     $lebelElement = $parent;
                 }
-        }
+            }
 
             return $lebelElement;
         };
