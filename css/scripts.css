@@ -110,16 +110,34 @@ html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol 
 html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-swapLabels {
     display: block;
     float: right;
-    margin: -4px -24px -4px -7px;
+    margin: -4px -25px -4px -7px;
     padding: 4px;
     background: #a33;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
 }
-
 html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-swapLabels:hover {
     background: #800;
 }
+
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-detailsPageLink {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 -5px 0 5px;
+    font-size: 1.8em;
+    line-height: 12px;
+    vertical-align: middle;
+    font-weight: 100;
+    color: #52a1d1;
+    text-decoration: none;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-detailsPageLink:hover {
+    color: #a3d0de;
+}
+html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip .fieldApiName-detailsPageLink.fieldApiName-detailsPageLink-loading {
+    cursor: progress;
+}
+
 html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tip      > .fieldApiName-fieldApiName,
 html.salesforceuiimprover-enabledScript-showFieldApiNames #bodyCell td.labelCol .fieldApiName-tipLabel > .fieldApiName-fieldLabel {
     display: inline;
