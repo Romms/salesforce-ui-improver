@@ -353,6 +353,13 @@ var salesforceuiimprover_scripts = {
     },
 
     showFieldApiNames : function () {
+
+        var params = {
+            sObjectName : null,
+            keyPrefix : window.location.pathname.substring(1, 4),
+            sObjectId : window.location.pathname.substring(1, 16)
+        };
+
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -398,14 +405,32 @@ var salesforceuiimprover_scripts = {
                     section.layoutRows.forEach(function (row) {
                         row.layoutItems.forEach(function (item) {
                             if (!item.placeholder && elements[elNum]) {
-                                var $td = $(elements[elNum]);
-                                var $labelElement = getLabelElement($td);
+                                if (null != item.layoutComponents[0].value) {
+                                    var $td = $(elements[elNum]);
+                                    var $labelElement = getLabelElement($td);
 
-                                var fieldApiName = item.layoutComponents[0].value;
-                                var label = getElementText($labelElement);
+                                    var fieldApiName = item.layoutComponents[0].value;
+                                    var label = getElementText($labelElement);
 
-                                addTipLabel($td, fieldApiName, label);
-                                addTip($td, fieldApiName, label);
+                                    var detailsLink;
+                                    var isCustomObject = params.sObjectName.toLowerCase().endsWith('__c');
+                                    var isCustomField = fieldApiName.toLowerCase().endsWith('__c');
+
+                                    if (!isCustomField) {
+                                        if (!isCustomObject) {
+                                            var fieldApiNameForUrl = fieldApiName;
+                                            if (undefined !== item.layoutComponents[0].details.relationshipName && null !== item.layoutComponents[0].details.relationshipName) {
+                                                fieldApiNameForUrl = item.layoutComponents[0].details.relationshipName;
+                                            }
+
+                                            detailsLink = '/_ui/common/config/field/StandardFieldAttributes/d?id=' + fieldApiNameForUrl;
+                                            detailsLink += '&type=' + params.sObjectName;
+                                        }
+                                    }
+
+                                    addTipLabel($td, fieldApiName, label);
+                                    addTip($td, fieldApiName, label, detailsLink);
+                                }
                             }
 
                             elNum++;
@@ -432,17 +457,25 @@ var salesforceuiimprover_scripts = {
             }).remove();
         };
 
-        var addTip = function ($td, fieldApiName, fieldLabel) {
+        var addTip = function ($td, fieldApiName, fieldLabel, detailsLink) {
             var $tip = generateWrapper(fieldApiName, fieldLabel);
             $tip.addClass('fieldApiName-tip');
 
-            var $button = $('<span class="fieldApiName-swapLabels" />');
-            $button.html('&#8646;'); // Symbol - ⇆
-            $button.click(function () {
+            if (undefined !== detailsLink) {
+                var $buttonSetup = $('<a class="fieldApiName-detailsPageLink" />');
+                $buttonSetup.attr('title', 'Go to field details page');
+                $buttonSetup.html('&#128712;'); // Symbol - 🛈
+                $buttonSetup.attr('href', detailsLink);
+                $tip.append($buttonSetup);
+            }
+
+            var $buttonSwap = $('<span class="fieldApiName-swapLabels" />');
+            $buttonSwap.attr('title', 'Swap field labels with API names');
+            $buttonSwap.html('&#8646;'); // Symbol - ⇆
+            $buttonSwap.click(function () {
                $('body').toggleClass('showFieldApiNames-showApiNamesInLabels');
             });
-
-            $tip.append($button);
+            $tip.append($buttonSwap);
 
             var $labelElement = getLabelElement($td);
             var $place = $labelElement.find('.fieldApiName-tipLabel');
@@ -487,26 +520,22 @@ var salesforceuiimprover_scripts = {
             return;
         }
 
-        var keyPrefix = window.location.pathname.substring(1, 4);
-        var sObjectId = window.location.pathname.substring(1, 16);
         var headers = {'Authorization': 'Bearer ' + getCookie('sid')};
-
-        // debugger;
 
         $.ajax({
             url: '/services/data/v31.0/sobjects' + '?t=' + Math.random(),
             headers: headers,
             success: function (data) {
                 var sObjectName;
-
                 data.sobjects.forEach(function (sobject) {
-                    if (keyPrefix == sobject.keyPrefix) {
+                    if (params.keyPrefix == sobject.keyPrefix) {
                         sObjectName = sobject.name;
                     }
                 });
 
                 if (undefined !== sObjectName) {
-                    loadRecordType(headers, sObjectName, sObjectId);
+                    params.sObjectName = sObjectName;
+                    loadRecordType(headers, sObjectName, params.sObjectId);
                 }
             }
         });
