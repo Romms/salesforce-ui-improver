@@ -3,7 +3,7 @@
 
   "name": "Salesforce UI Improver",
   "description": "This extension makes Salesforce User Interface better!",
-  "version": "0.5.0.1",
+  "version": "1.5.0",
 
   "options_ui": {
     "page": "html/popup.html",
