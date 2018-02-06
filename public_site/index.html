@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <link rel="icon" type="image/png" href="logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <style>
+            body {
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;;
+                color: #444;
+                font-size: 12pt;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                width: 100%;
+            }
+            
+            .logo-wrapper {
+                position: absolute;
+                animation: 7s spinnow infinite linear;
+                text-align: left;
+                width:100%;
+                right: -50%;
+                top: 50%;
+                height: 0;
+                z-index: -1;
+            }
+            .logo {
+                max-height: 60vmin;
+                max-width: 60vmin;
+                margin-left: -30vmin;
+                margin-top: -30vmin;
+            }
+            
+            header h1{
+                margin: 0;
+                font-size: 6vmin;
+            }
+            header {
+                font-size: 4vmin;
+                margin: auto;
+                position: absolute;
+                top:0;
+                right:0;
+                bottom: 0;
+                left: 0;
+                height: 25vmin;
+                
+                text-shadow:
+                    -1px -1px 1px #fff,
+                     1px -1px 1px #fff,
+                    -1px  1px 1px #fff,
+                     1px  1px 1px #fff;
+                
+            }
+            
+            .web-store:hover {
+                box-shadow: 0px 0px 15px rgba(51,153,255, .5);
+                border-radius: 5px;
+            }
+            
+            @-webkit-keyframes spinnow {
+                0%,100% {
+                    -webkit-transform: rotate(-45deg);
+                    -ms-transform: rotate(-45deg);
+                    transform: rotate(-45deg);
+                }
+                65% {
+                    -webkit-transform: rotate(135deg);
+                    -ms-transform: rotate(135deg);
+                    transform: rotate(135deg);
+                }
+                65.001% {
+                    -webkit-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+            }
+            @keyframes spinnow {
+                0%,100% {
+                    -webkit-transform: rotate(-45deg);
+                    -ms-transform: rotate(-45deg);
+                    transform: rotate(-45deg);
+                }
+                65% {
+                    -webkit-transform: rotate(135deg);
+                    -ms-transform: rotate(135deg);
+                    transform: rotate(135deg);
+                }
+                65.001% {
+                    -webkit-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+            }
+            .gitlab {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                text-align: center;
+                padding: 20px;
+            }
+            .gitlab-link {
+                display: inline-block;
+                padding: .5em .8em .2em .8em;                
+                border-radius: 5px;
+                font-size: .8em;
+                line-height: 2em;
+                background-color: rgba(255,255,255, .8);
+                color: inherit;
+                text-decoration: underline;
+            }
+            .gitlab-link:hover {
+                background-color: rgba(220,220,220, .7);
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Salesforce UI Improver</h1>
+            makes Salesforce User Interface better!
+            <p>
+                <a href="https://chrome.google.com/webstore/detail/salesforce-ui-improver/cfihjphppakcdhnkbnjboipgblbjapha" title="Available in the chrome web store">
+                    <img class="web-store" src="ChromeWebStore_BadgeWBorder_v2_340x96.png" alt="Available in the chrome web store" />
+                </a>
+            </p>
+        </header>
+        <div class="logo-wrapper">
+            <img class="logo" src="logo.png">
+        </div>
+        <div class="gitlab">
+            <a class="gitlab-link" href="https://gitlab.com/Romms/salesforceuiimprover" title="Edit on GitLab">
+                <img height=30 alt="gitlab" src="gitlab_logo.png" />
+                <div class="gitlab-label">Edit on GitLab</div>
+            </a>
+        </div>
+    </body>
+</html>
