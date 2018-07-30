@@ -4,7 +4,7 @@
 
 Chrome extension that makes Salesforce User Interface better
 
-[sfuiimprover.com](http://sfuiimprover.com)
+[sfuiimprover.com](https://sfuiimprover.com)
 
 #### Install from Chrome Web Store:
 [![Available in the chrome web store](./public_site/chrome_webstore_300x85.png)](https://chrome.google.com/webstore/detail/salesforce-ui-improver/cfihjphppakcdhnkbnjboipgblbjapha)
